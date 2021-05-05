@@ -1,15 +1,10 @@
 package com.zhss.eshop.auth.dao;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.zhss.eshop.auth.domain.RoleDO;
+import com.zhss.eshop.auth.domain.RoleQuery;
+import com.zhss.eshop.common.constant.CollectionSize;
+import com.zhss.eshop.common.util.DateProvider;
 import org.junit.Test;
-
-import static org.hamcrest.Matchers.*;
-
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,10 +13,12 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.zhss.eshop.auth.domain.RoleDO;
-import com.zhss.eshop.auth.domain.RoleQuery;
-import com.zhss.eshop.common.constant.CollectionSize;
-import com.zhss.eshop.common.util.DateProvider;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.Assert.*;
 
 /**
  * 角色管理模块DAO组件的单元测试类
@@ -50,7 +47,7 @@ public class RoleDaoTest {
 	 * @throws Exception
 	 */
 	@Test
-	@Sql({"clean_role.sql"})
+//	@Sql({"clean_role.sql"})
 	public void testSave() throws Exception {
 		RoleDO role = createRole("测试角色", "TEST_CODE"); 
 		assertNotNull(role.getId()); 
@@ -62,7 +59,7 @@ public class RoleDaoTest {
 	 * @throws Exception
 	 */
 	@Test
-	@Sql({"clean_role.sql"})
+//	@Sql({"clean_role.sql"})
 	public void testListByPage() throws Exception {
 		// 准备参数
 		Integer count = 5;

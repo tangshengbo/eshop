@@ -1,27 +1,15 @@
 package com.zhss.eshop.auth.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.zhss.eshop.auth.domain.*;
+import com.zhss.eshop.auth.service.RoleService;
+import com.zhss.eshop.common.util.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.zhss.eshop.auth.domain.RoleDTO;
-import com.zhss.eshop.auth.domain.RolePriorityRelationshipDTO;
-import com.zhss.eshop.auth.domain.RolePriorityRelationshipVO;
-import com.zhss.eshop.auth.domain.RoleQuery;
-import com.zhss.eshop.auth.domain.RoleVO;
-import com.zhss.eshop.auth.service.RoleService;
-import com.zhss.eshop.common.util.ObjectUtils;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 角色管理模块controller组件
@@ -49,11 +37,10 @@ public class RoleController {
 	public List<RoleVO> listByPage(RoleQuery query) {
 		try {
 			List<RoleDTO> roles = roleService.listByPage(query);
-			List<RoleVO> resultRoles = ObjectUtils.convertList(roles, RoleVO.class);
-			return resultRoles;
+			return ObjectUtils.convertList(roles, RoleVO.class);
 		} catch (Exception e) {
 			logger.error("error", e); 
-			return new ArrayList<RoleVO>();
+			return new ArrayList<>();
 		}
 	}
 	

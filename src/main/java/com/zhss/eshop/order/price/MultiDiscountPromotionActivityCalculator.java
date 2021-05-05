@@ -26,7 +26,7 @@ public class MultiDiscountPromotionActivityCalculator implements PromotionActivi
 	@Override
 	public PromotionActivityResult calculate(OrderItemDTO item, 
 			PromotionActivityDTO promotionActivity) throws Exception {
-		Double totalAmount = item.getPurchaseQuantity() * item.getPurchasePrice();
+		double totalAmount = item.getPurchaseQuantity() * item.getPurchasePrice();
 		Long purchaseCount = item.getPurchaseQuantity();
 		
 		String rulesJson = promotionActivity.getRule();
