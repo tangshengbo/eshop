@@ -1,16 +1,9 @@
 package com.zhss.eshop.inventory.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-
 import com.zhss.eshop.inventory.domain.StockUpdateMessageDO;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 /**
  * 离线存储的库存更新消息mapper组件
@@ -55,7 +48,7 @@ public interface StockUpdateMessageMapper {
 				+ "gmt_modified "
 			+ "FROM inventory_offline_stock_update_message "
 			+ "ORDER BY id "
-			+ "LIMIT 50") 
+			+ "LIMIT ${pageSize}")
 	@Results({
 		@Result(column = "id", property = "id", id = true),
 		@Result(column = "message_id", property = "messageId"),
@@ -65,7 +58,7 @@ public interface StockUpdateMessageMapper {
 		@Result(column = "gmt_create", property = "gmtCreate"),
 		@Result(column = "gmt_modified", property = "gmtModified")
  	})
-	List<StockUpdateMessageDO> listByBatch(); 
+	List<StockUpdateMessageDO> listByBatch(@Param("pageSize") Integer pageSize);
 	
 	/**
 	 * 批量删除库存更新消息

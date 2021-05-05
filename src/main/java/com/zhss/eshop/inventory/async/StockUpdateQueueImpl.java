@@ -1,9 +1,9 @@
 package com.zhss.eshop.inventory.async;
 
-import java.util.concurrent.ArrayBlockingQueue;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * 商品库存更新队列实现类
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StockUpdateQueueImpl implements StockUpdateQueue {
 	
-	private static final Integer QUEUE_MAX_SIZE = 1000;
+	private static final Integer QUEUE_MAX_SIZE = 1;
 	
 	/**
 	 * 离线存储管理组件
@@ -39,8 +39,7 @@ public class StockUpdateQueueImpl implements StockUpdateQueue {
 		// 写完离线存储之后，需要检查一下内存队列的大小，如果内存队列已经清零，则启动一个后台线程
 		// 让后台线程去将离线存储中的数据恢复写入内存队列中
 		if(offlineStorageManager.getOffline()) {
-			offlineStorageManager.store(message); 
-			
+			offlineStorageManager.store(message);
 			if(queue.size() == 0) {
 				new OfflineResumeThread(offlineStorageManager, this).start(); 
 			}
@@ -49,13 +48,13 @@ public class StockUpdateQueueImpl implements StockUpdateQueue {
 		}
 		
 		// 如果内存队列已经满了，此时就触发离线存储
-		if(QUEUE_MAX_SIZE.equals(queue.size())) {  
+//		if(QUEUE_MAX_SIZE.equals(queue.size())) {
 			offlineStorageManager.store(message); 
 			offlineStorageManager.setOffline(true);
-			return;
-		}
+//			return;
+//		}
 		
-		queue.put(message); 
+//		queue.put(message);
 	}
 	
 	/**

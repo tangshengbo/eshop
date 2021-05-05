@@ -1,19 +1,18 @@
 package com.zhss.eshop.inventory.stock;
 
+import com.zhss.eshop.common.constant.CollectionSize;
+import com.zhss.eshop.common.util.DateProvider;
+import com.zhss.eshop.inventory.dao.GoodsStockDAO;
+import com.zhss.eshop.inventory.domain.GoodsStockDO;
+import com.zhss.eshop.order.domain.OrderInfoDTO;
+import com.zhss.eshop.order.domain.OrderItemDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.zhss.eshop.inventory.dao.GoodsStockDAO;
-import com.zhss.eshop.common.constant.CollectionSize;
-import com.zhss.eshop.common.util.DateProvider;
-import com.zhss.eshop.inventory.domain.GoodsStockDO;
-import com.zhss.eshop.order.domain.OrderInfoDTO;
-import com.zhss.eshop.order.domain.OrderItemDTO;
 
 /**
  * 提交订单库存更新组件工厂
@@ -67,8 +66,7 @@ public class SubmitOrderStockUpdaterFactory<T>
 		for(OrderItemDTO orderItemDTO : orderInfoDTO.getOrderItems()) {
 			orderItemDTOMap.put(orderItemDTO.getGoodsSkuId(), orderItemDTO);
 		}
-		
-		return new SubmitOrderStockUpdater(goodsStockDOs, goodsStockDAO, 
+		return new SubmitOrderStockUpdater(goodsStockDOs, goodsStockDAO,
 				dateProvider, orderItemDTOMap);
 	} 
 

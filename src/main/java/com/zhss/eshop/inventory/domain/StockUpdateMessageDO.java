@@ -28,7 +28,7 @@ public class StockUpdateMessageDO {
 	/**
 	 * 参数类型
 	 */
-	private String paramterClazz;
+	private String parameterClazz;
 	/**
 	 * 创建时间
 	 */
@@ -56,12 +56,15 @@ public class StockUpdateMessageDO {
 	public void setOperation(Integer operation) {
 		this.operation = operation;
 	}
-	public String getParamterClazz() {
-		return paramterClazz;
+
+	public String getParameterClazz() {
+		return parameterClazz;
 	}
-	public void setParamterClazz(String paramterClazz) {
-		this.paramterClazz = paramterClazz;
+
+	public void setParameterClazz(String parameterClazz) {
+		this.parameterClazz = parameterClazz;
 	}
+
 	public String getParameter() {
 		return parameter;
 	}
@@ -84,7 +87,7 @@ public class StockUpdateMessageDO {
 	@Override
 	public String toString() {
 		return "StockUpdateMessageDO [id=" + id + ", messageId=" + messageId + ", operation=" + operation
-				+ ", parameter=" + parameter + ", paramterClazz=" + paramterClazz + ", gmtCreate=" + gmtCreate
+				+ ", parameter=" + parameter + ", parameterClazz=" + parameterClazz + ", gmtCreate=" + gmtCreate
 				+ ", gmtModified=" + gmtModified + "]";
 	}
 	

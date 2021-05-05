@@ -1,15 +1,15 @@
 package com.zhss.eshop.inventory.async;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.alibaba.fastjson.JSONObject;
+import com.zhss.eshop.common.util.DateProvider;
+import com.zhss.eshop.inventory.dao.StockUpdateMessageDAO;
+import com.zhss.eshop.inventory.domain.StockUpdateMessageDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSONObject;
-import com.zhss.eshop.inventory.dao.StockUpdateMessageDAO;
-import com.zhss.eshop.common.util.DateProvider;
-import com.zhss.eshop.inventory.domain.StockUpdateMessageDO;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 离线存储管理组件
@@ -58,7 +58,7 @@ public class OfflineStorageManagerImpl implements OfflineStorageManager {
 		stockUpdateMessageDO.setMessageId(message.getId());
 		stockUpdateMessageDO.setOperation(message.getOperation());
 		stockUpdateMessageDO.setParameter(JSONObject.toJSONString(message.getParameter())); 
-		stockUpdateMessageDO.setParamterClazz(message.getParameter().getClass().getName());  
+		stockUpdateMessageDO.setParameterClazz(message.getParameter().getClass().getName());
 		stockUpdateMessageDO.setGmtCreate(dateProvider.getCurrentTime()); 
 		stockUpdateMessageDO.setGmtModified(dateProvider.getCurrentTime()); 
 		return stockUpdateMessageDO;
@@ -91,14 +91,8 @@ public class OfflineStorageManagerImpl implements OfflineStorageManager {
 	 */
 	@Override
 	public void removeByBatch(List<StockUpdateMessage> stockUpdateMessages) throws Exception {
-		StringBuilder builder = new StringBuilder("");
-		for(int i = 0; i < stockUpdateMessages.size(); i++) {
-			builder.append(stockUpdateMessages.get(i).getId());
-			if(i < stockUpdateMessages.size() - 1) {
-				builder.append(","); 
-			}
-		}
-		stockUpdateMessageDAO.removeByBatch(builder.toString());
+		String ids = stockUpdateMessages.stream().map(StockUpdateMessage::getId).collect(Collectors.joining(","));
+		stockUpdateMessageDAO.removeByBatch(ids);
 	}
 	
 	/**
@@ -124,7 +118,7 @@ public class OfflineStorageManagerImpl implements OfflineStorageManager {
 		 */
 		@Override
 		public Boolean hasNext() throws Exception {
-			return stockUpdateMessageDAO.count().equals(0L) ? false : true;
+			return !stockUpdateMessageDAO.count().equals(0L);
 		}
 		
 		/**
@@ -143,7 +137,7 @@ public class OfflineStorageManagerImpl implements OfflineStorageManager {
 				stockUpdateMessage.setId(stockUpdateMessageDO.getMessageId()); 
 				stockUpdateMessage.setOperation(stockUpdateMessageDO.getOperation()); 
 				stockUpdateMessage.setParameter(JSONObject.parseObject(stockUpdateMessageDO.getParameter(), 
-						Class.forName(stockUpdateMessageDO.getParamterClazz())));  
+						Class.forName(stockUpdateMessageDO.getParameterClazz())));
 				stockUpdateMessages.add(stockUpdateMessage);
 			}
 			

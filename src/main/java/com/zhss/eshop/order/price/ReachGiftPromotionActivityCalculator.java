@@ -36,7 +36,7 @@ public class ReachGiftPromotionActivityCalculator
 	@Override
 	public PromotionActivityResult calculate(OrderItemDTO item, 
 			PromotionActivityDTO promotionActivity) throws Exception {
-		Double totalAmount = item.getPurchaseQuantity() * item.getPurchasePrice();
+		double totalAmount = item.getPurchaseQuantity() * item.getPurchasePrice();
 		
 		JSONObject rule = JSONObject.parseObject(promotionActivity.getRule());
 		Double thresholdAmount = jsonExtractor.getDouble(rule, "thresholdAmount"); 

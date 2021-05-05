@@ -1,19 +1,18 @@
 package com.zhss.eshop.inventory.stock;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.zhss.eshop.inventory.dao.GoodsStockDAO;
 import com.zhss.eshop.common.constant.CollectionSize;
 import com.zhss.eshop.common.util.DateProvider;
+import com.zhss.eshop.inventory.dao.GoodsStockDAO;
 import com.zhss.eshop.inventory.domain.GoodsStockDO;
 import com.zhss.eshop.wms.domain.PurchaseInputOrderDTO;
 import com.zhss.eshop.wms.domain.PurchaseInputOrderItemDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 采购入库库存更新命令的工厂
@@ -74,17 +73,14 @@ public class PurchaseInputStockUpdaterFactory<T>
 		List<PurchaseInputOrderItemDTO> purchaseInputOrderItemDTOs = 
 				purchaseInputOrderDTO.getItems();
 		
-		Map<Long, PurchaseInputOrderItemDTO> purchaseInputOrderItemDTOMap = 
-				new HashMap<Long, PurchaseInputOrderItemDTO>(CollectionSize.DEFAULT);
-		
-		if(purchaseInputOrderItemDTOs != null && purchaseInputOrderItemDTOs.size() > 0) {
-			for(PurchaseInputOrderItemDTO purchaseInputOrderItemDTO : purchaseInputOrderItemDTOs) {
-				purchaseInputOrderItemDTOMap.put(purchaseInputOrderItemDTO.getGoodsSkuId(), 
-						purchaseInputOrderItemDTO);
-			}
+		Map<Long, PurchaseInputOrderItemDTO> purchaseInputOrderItemDTOMap =
+				new HashMap<>(CollectionSize.DEFAULT);
+		if (!CollectionUtils.isEmpty(purchaseInputOrderItemDTOs)) {
+			purchaseInputOrderItemDTOMap =
+					purchaseInputOrderItemDTOs.stream()
+							.collect(Collectors.toMap(PurchaseInputOrderItemDTO::getGoodsSkuId, Function.identity()));
 		}
-		
-		return new PurchaseInputStockUpdater(goodsStockDOs, goodsStockDAO, 
+		return new PurchaseInputStockUpdater(goodsStockDOs, goodsStockDAO,
 				dateProvider, purchaseInputOrderItemDTOMap); 
 	}
 

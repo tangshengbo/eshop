@@ -1,44 +1,29 @@
 package com.zhss.eshop.comment.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.zhss.eshop.comment.constant.CommentApproved;
 import com.zhss.eshop.comment.constant.CommentStatus;
 import com.zhss.eshop.comment.constant.ShowPictures;
-import com.zhss.eshop.comment.domain.CommentAggregateDTO;
-import com.zhss.eshop.comment.domain.CommentAggregateVO;
-import com.zhss.eshop.comment.domain.CommentInfoDTO;
-import com.zhss.eshop.comment.domain.CommentInfoQuery;
-import com.zhss.eshop.comment.domain.CommentInfoVO;
-import com.zhss.eshop.comment.domain.CommentPictureDTO;
-import com.zhss.eshop.comment.domain.CommentPictureVO;
-import com.zhss.eshop.comment.domain.CommentShowVO;
+import com.zhss.eshop.comment.domain.*;
 import com.zhss.eshop.comment.service.CommentAggregateService;
 import com.zhss.eshop.comment.service.CommentInfoService;
 import com.zhss.eshop.comment.service.CommentPictureService;
 import com.zhss.eshop.common.util.ObjectUtils;
 import com.zhss.eshop.membership.service.MembershipService;
 import com.zhss.eshop.order.service.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 评论管理模块的Controller组件
@@ -87,7 +72,7 @@ public class CommentController {
 			CommentInfoVO commentInfoVO, MultipartFile[] files) {
 		try {
 			// 为评论设置是否晒图
-			Integer showPictures = ShowPictures.NO;
+			int showPictures = ShowPictures.NO;
 			
 			if(files != null && files.length > 0) {
 				for(MultipartFile file : files) {
