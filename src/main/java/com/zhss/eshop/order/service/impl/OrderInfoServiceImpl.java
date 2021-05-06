@@ -1,41 +1,17 @@
 package com.zhss.eshop.order.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.zhss.eshop.inventory.service.InventoryService;
 import com.zhss.eshop.common.util.DateProvider;
 import com.zhss.eshop.common.util.ObjectUtils;
 import com.zhss.eshop.customer.service.CustomerService;
+import com.zhss.eshop.inventory.service.InventoryService;
 import com.zhss.eshop.order.constant.OrderStatus;
 import com.zhss.eshop.order.constant.PublishedComment;
 import com.zhss.eshop.order.dao.OrderInfoDAO;
 import com.zhss.eshop.order.dao.OrderItemDAO;
 import com.zhss.eshop.order.dao.OrderOperateLogDAO;
 import com.zhss.eshop.order.dao.ReturnGoodsApplyDAO;
-import com.zhss.eshop.order.domain.OrderInfoDO;
-import com.zhss.eshop.order.domain.OrderInfoDTO;
-import com.zhss.eshop.order.domain.OrderInfoQuery;
-import com.zhss.eshop.order.domain.OrderItemDO;
-import com.zhss.eshop.order.domain.OrderItemDTO;
-import com.zhss.eshop.order.domain.OrderOperateLogDTO;
-import com.zhss.eshop.order.domain.ReturnGoodsApplyDO;
-import com.zhss.eshop.order.domain.ReturnGoodsApplyDTO;
-import com.zhss.eshop.order.price.CouponCalculator;
-import com.zhss.eshop.order.price.CouponCalculatorFactory;
-import com.zhss.eshop.order.price.DefaultOrderPriceCalculatorFactory;
-import com.zhss.eshop.order.price.DiscountOrderPriceCalculatorFactory;
-import com.zhss.eshop.order.price.FreightCalculator;
-import com.zhss.eshop.order.price.GiftOrderPriceCalculatorFactory;
-import com.zhss.eshop.order.price.OrderPriceCalculatorFactory;
-import com.zhss.eshop.order.price.PromotionActivityCalculator;
-import com.zhss.eshop.order.price.PromotionActivityResult;
-import com.zhss.eshop.order.price.TotalPriceCalculator;
+import com.zhss.eshop.order.domain.*;
+import com.zhss.eshop.order.price.*;
 import com.zhss.eshop.order.service.OrderInfoService;
 import com.zhss.eshop.order.state.LoggedOrderStateManager;
 import com.zhss.eshop.pay.service.PayService;
@@ -43,6 +19,13 @@ import com.zhss.eshop.promotion.constant.PromotionActivityType;
 import com.zhss.eshop.promotion.domain.CouponDTO;
 import com.zhss.eshop.promotion.domain.PromotionActivityDTO;
 import com.zhss.eshop.promotion.service.PromotionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * 订单管理service组件
@@ -139,27 +122,19 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 		
 		for(OrderItemDTO item : order.getOrderItems()) {
 			// 查询订单条目使用的促销活动
-			PromotionActivityDTO promotionActivity = promotionService.getById(
-					item.getPromotionActivityId());
-			
+			PromotionActivityDTO promotionActivity = promotionService.getById(item.getPromotionActivityId());
 			// 根据促销活动获取到订单计算组件的工厂
-			OrderPriceCalculatorFactory orderPriceCalculatorFactory = 
-					getOrderPriceCalculatorFactory(promotionActivity); 
-			
+			OrderPriceCalculatorFactory orderPriceCalculatorFactory = getOrderPriceCalculatorFactory(promotionActivity);
 			// 从订单计算组件工厂中获取一套订单的价格计算组件
-			TotalPriceCalculator totalPriceCalculator = orderPriceCalculatorFactory
-					.createTotalPriceCalculator();
-			PromotionActivityCalculator promotionActivityCalculator = orderPriceCalculatorFactory
-					.createPromotionActivityCalculator(promotionActivity); 
-			FreightCalculator freightCalculator = orderPriceCalculatorFactory
-					.createFreightCalculator();
-			
+			TotalPriceCalculator totalPriceCalculator = orderPriceCalculatorFactory.createTotalPriceCalculator();
+			// 获取促销金额格计算组件
+			PromotionActivityCalculator promotionActivityCalculator = orderPriceCalculatorFactory.createPromotionActivityCalculator(promotionActivity);
+			FreightCalculator freightCalculator = orderPriceCalculatorFactory.createFreightCalculator();
 			// 计算订单条目的总金额
 			totalAmount += totalPriceCalculator.calculate(item);
 			
 			// 处理促销活动，计算促销活动的减免金额，以及促销活动的赠品
-			PromotionActivityResult result = promotionActivityCalculator.calculate(
-					item, promotionActivity); 
+			PromotionActivityResult result = promotionActivityCalculator.calculate(item, promotionActivity);
 			discountAmount += result.getDiscountAmount();
 			giftOrderItems.addAll(result.getOrderItems());
 			
