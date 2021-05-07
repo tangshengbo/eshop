@@ -1,26 +1,20 @@
 package com.zhss.eshop.schedule.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.zhss.eshop.common.constant.CollectionSize;
 import com.zhss.eshop.common.util.ObjectUtils;
 import com.zhss.eshop.order.domain.OrderItemDTO;
 import com.zhss.eshop.schedule.dao.ScheduleGoodsAllocationStockDetailDAO;
 import com.zhss.eshop.schedule.dao.ScheduleOrderPickingItemDAO;
 import com.zhss.eshop.schedule.dao.ScheduleOrderSendOutDetailDAO;
-import com.zhss.eshop.schedule.domain.SaleDeliveryScheduleResult;
-import com.zhss.eshop.schedule.domain.ScheduleGoodsAllocationStockDetailDO;
-import com.zhss.eshop.schedule.domain.ScheduleOrderPickingItemDO;
-import com.zhss.eshop.schedule.domain.ScheduleOrderPickingItemDTO;
-import com.zhss.eshop.schedule.domain.ScheduleOrderSendOutDetailDO;
-import com.zhss.eshop.schedule.domain.ScheduleOrderSendOutDetailDTO;
+import com.zhss.eshop.schedule.domain.*;
 import com.zhss.eshop.schedule.service.SaleDeliveryScheduler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 销售出库调度器
@@ -74,11 +68,9 @@ public class SaleDeliverySchedulerImpl implements SaleDeliveryScheduler {
 		 * 商品A，要购买120件
 		 * 
 		 */
-		
-		Long purchaseQuantity = orderItem.getPurchaseQuantity();
-		
+
 		// 剩余要发货的数量，刚开始也是120 -> 80 -> 20
-		Long remainingSendOutQuantity = purchaseQuantity;
+		Long remainingSendOutQuantity = orderItem.getPurchaseQuantity();
 		
 		/**
 		 * 
@@ -146,7 +138,7 @@ public class SaleDeliverySchedulerImpl implements SaleDeliveryScheduler {
 	
 	/**
 	 * 更新拣货条目
-	 * @param pickingItemMap 拣货条目map
+	 * @param pickingItems 拣货条目map
 	 * @param stockDetail 库存明细
 	 */
 	private void updatePickingItem(

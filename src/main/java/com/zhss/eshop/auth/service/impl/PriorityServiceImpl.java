@@ -1,14 +1,5 @@
 package com.zhss.eshop.auth.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.zhss.eshop.auth.dao.PriorityDAO;
 import com.zhss.eshop.auth.domain.PriorityDO;
 import com.zhss.eshop.auth.domain.PriorityDTO;
@@ -16,6 +7,14 @@ import com.zhss.eshop.auth.service.PriorityService;
 import com.zhss.eshop.common.bean.SpringApplicationContext;
 import com.zhss.eshop.common.constant.CollectionSize;
 import com.zhss.eshop.common.util.DateProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 权限管理模块的service组件
@@ -155,7 +154,7 @@ public class PriorityServiceImpl implements PriorityService {
 		}
 		
 		Long count = priorityDAO.countAuthorizedByCode(accountId, code);
-		authorized = count > 0 ? true : false;
+		authorized = count > 0;
 		priorityCacheManager.cacheAuthorizedByCode(accountId, code, authorized); 
 		
 		return authorized;
@@ -177,7 +176,7 @@ public class PriorityServiceImpl implements PriorityService {
 		}
 		
 		Long count = priorityDAO.countAuthorizedByUrl(accountId, url);
-		authorized = count > 0 ? true : false;
+		authorized = count > 0;
 		priorityCacheManager.cacheAuthorizedByUrl(accountId, url, authorized); 
 		
 		return authorized;

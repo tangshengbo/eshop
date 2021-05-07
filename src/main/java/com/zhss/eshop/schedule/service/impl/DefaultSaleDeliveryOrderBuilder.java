@@ -1,12 +1,5 @@
 package com.zhss.eshop.schedule.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import com.zhss.eshop.common.util.DateProvider;
 import com.zhss.eshop.common.util.ObjectUtils;
 import com.zhss.eshop.logistics.service.LogisticsService;
@@ -16,13 +9,13 @@ import com.zhss.eshop.schedule.domain.SaleDeliveryScheduleResult;
 import com.zhss.eshop.schedule.service.SaleDeliveryOrderBuilder;
 import com.zhss.eshop.schedule.service.SaleDeliveryScheduler;
 import com.zhss.eshop.wms.constant.SaleDeliveryOrderStatus;
-import com.zhss.eshop.wms.domain.LogisticOrderDTO;
-import com.zhss.eshop.wms.domain.SaleDeliveryOrderDTO;
-import com.zhss.eshop.wms.domain.SaleDeliveryOrderItemDTO;
-import com.zhss.eshop.wms.domain.SaleDeliveryOrderPickingItemDTO;
-import com.zhss.eshop.wms.domain.SaleDeliveryOrderSendOutDetailDTO;
-import com.zhss.eshop.wms.domain.SendOutOrderDTO;
-import com.zhss.eshop.wms.domain.SendOutOrderItemDTO;
+import com.zhss.eshop.wms.domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 默认的销售出库单构造器
@@ -36,7 +29,7 @@ public class DefaultSaleDeliveryOrderBuilder implements SaleDeliveryOrderBuilder
 	/**
 	 * 要构造的销售出库单
 	 */
-	private SaleDeliveryOrderDTO saleDeliveryOrder = new SaleDeliveryOrderDTO();
+	private final SaleDeliveryOrderDTO saleDeliveryOrder = new SaleDeliveryOrderDTO();
 	
 	/**
 	 * 销售出库调度器

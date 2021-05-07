@@ -27,6 +27,11 @@ public class GoodsStatus {
 	 * 已上架
 	 */
 	public static final Integer PUTTED_ON_SHELVES = 4;
+
+	/**
+	 * 热销
+	 */
+	public static final Integer GOODS_HOT = 5;
 	
 	private GoodsStatus() {
 		

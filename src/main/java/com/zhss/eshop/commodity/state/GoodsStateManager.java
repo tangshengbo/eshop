@@ -84,5 +84,14 @@ public interface GoodsStateManager {
 	 * @throws Exception
 	 */
 	Boolean canRemove(GoodsDTO goods) throws Exception;
+
+
+	/**
+	 * 执行热门操作
+	 * @param goods 商品
+	 * @return
+	 * @throws Exception
+	 */
+	void hotGoods(GoodsDTO goods) throws Exception;
 	
 }

@@ -47,6 +47,17 @@ public interface GoodsState {
 	 * @throws Exception
 	 */
 	Boolean canPullOffShelves(GoodsDTO goods) throws Exception;
+
+
+	/**
+	 * 判断能否执行热门商品操作
+	 * @param goods 商品
+	 * @return
+	 * @throws Exception
+	 */
+ 	default Boolean canHotGoods(GoodsDTO goods) {
+		return false;
+	}
 	
 	/**
 	 * 能否执行删除操作
